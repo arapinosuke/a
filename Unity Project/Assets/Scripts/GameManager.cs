@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
 
     // serialize field.
     [SerializeField]
-<<<<<<< HEAD
     private BallController board;
 
     // private.
