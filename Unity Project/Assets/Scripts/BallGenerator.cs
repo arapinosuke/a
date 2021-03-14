@@ -10,6 +10,8 @@ public class BallGenerator : MonoBehaviour
     public GameObject Ball;
     public GameObject CharacterParent;
 
+    private BallType kind;
+
     private void Start()
     {
         for (int i = 0; i < 30; i++)
@@ -20,8 +22,8 @@ public class BallGenerator : MonoBehaviour
 
     public void SetKind(BallType ballType)
     {
-        kind = ballController;
-        BallType();
+        kind = ballType;
+        SetColor();
     }
     public BallController GetKind()
     {
@@ -34,22 +36,17 @@ public class BallGenerator : MonoBehaviour
     {
         switch (kind)
         {
-            case BallController.Water:
+            case BallType.Water:
                 break;
-            case PieceKind.Blue:
-                thisImage.color = Color.blue;
+            case BallType.Wind:
                 break;
-            case PieceKind.Green:
-                thisImage.color = Color.green;
+            case BallType.Fire:
                 break;
-            case PieceKind.Yellow:
-                thisImage.color = Color.yellow;
+            case BallType.Dark:
                 break;
-            case PieceKind.Black:
-                thisImage.color = Color.black;
+            case BallType.Light:
                 break;
-            case PieceKind.Magenta:
-                thisImage.color = Color.magenta;
+            case BallType.Heal:
                 break;
             default:
                 break;

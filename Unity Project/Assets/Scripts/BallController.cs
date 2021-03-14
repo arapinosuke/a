@@ -21,18 +21,6 @@ public class BallController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
     public Sprite[] sprites = new Sprite[6];
 
-    public enum BallType
-    {
-        Invalide = -1,
-        Water,
-        Wind,
-        Fire,
-        Dark,
-        Light,
-        Heal,
-        Num
-    }
-
     public BallType ThisBallType = BallType.Invalide;
 
 
@@ -224,7 +212,7 @@ public class BallController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         return verticalMatchCount >= GameManager.MachingCount || horizontalMatchCount >= GameManager.MachingCount;
     }
     // 対象の方向に引数で指定したの種類のピースがいくつあるかを返す
-    private int GetSameKindPieceNum(PieceKind kind, Vector2 piecePos, Vector2 searchDir)
+    private int GetSameKindPieceNum(BallType kind, Vector2 piecePos, Vector2 searchDir)
     {
         var count = 0;
         while (true)
