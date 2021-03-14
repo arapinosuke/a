@@ -25,23 +25,21 @@ public class GameManager : MonoBehaviour
     private GameState currentState;
     private BallGenerator selectedPiece;
 
-=======
+
     private BallController ballController;
    
 
     // private.
     private GameState currentState;
-    private BallGenerator selectedPiece;
+    private BallGenerator ballGenerator;
 
->>>>>>> 54c928508d9cc4c4d4ad516847fa907d20de1883
+
     //-------------------------------------------------------
     // MonoBehaviour Function
     //-------------------------------------------------------
     // ゲームの初期化処理
     private void Start()
     {
-        ballController.InitializeBoard(6, 5);
-
         currentState = GameState.Idle;
     }
 
