@@ -27,11 +27,6 @@ public class GameManager : MonoBehaviour
 
 
     private BallController ballController;
-   
-
-    // private.
-    private GameState currentState;
-    private BallGenerator ballGenerator;
 
 
     //-------------------------------------------------------
@@ -72,12 +67,12 @@ public class GameManager : MonoBehaviour
     // Private Function
     //-------------------------------------------------------
     // プレイヤーの入力を検知し、ピースを選択状態にする
+    
     private void Idle()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            selectedPiece = board.GetNearestPiece(Input.mousePosition);
-            currentState = GameState.PieceMove;
+            SelectPiece();
         }
     }
 
@@ -109,46 +104,23 @@ public class GameManager : MonoBehaviour
             currentState = GameState.Idle;
         }
     }
-
-    private void Idle()
+    
+    
+    private void SelectPiece()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            uiManager.ResetCombo();
-            SelectPiece();
-        }
+        selectedPiece = board.GetNearestPiece(Input.mousePosition);
+        var piece = board.InstantiatePiece(Input.mousePosition);
+        piece.SetKind(selectedPiece.GetKind());
+        piece.SetSize((int)(board.pieceWidth * 1.2f));
+        piece.SetPieceAlpha(SelectedPieceAlpha);
+        selectedPieceObject = piece.gameObject;
+
+        selectedPiece.SetPieceAlpha(SelectedPieceAlpha);
+        currentState = GameState.PieceMove;
     }
 
-    private void PieceMove()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            var piece = board.GetNearestPiece(Input.mousePosition);
-            if (piece != selectedPiece)
-            {
-                board.SwitchPiece(selectedPiece, piece);
-            }
-            selectedPieceObject.transform.position = Input.mousePosition + Vector3.up * 10;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            selectedPiece.SetPieceAlpha(1f);
-            Destroy(selectedPieceObject);
-            currentState = GameState.MatchCheck;
-        }
-    }
-
-    private void MatchCheck()
-    {
-        if (board.HasMatch())
-        {
-            currentState = GameState.DeletePiece;
-        }
-        else
-        {
-            currentState = GameState.Idle;
-        }
-    }
+    
+    
     // マッチングしているピースを削除する
     private void DeletePiece()
     {

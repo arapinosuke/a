@@ -9,7 +9,6 @@ public class BallGenerator : MonoBehaviour
     //PieceがGenerator
     public GameObject Ball;
     public GameObject CharacterParent;
-
     private BallType kind;
 
     private void Start()
@@ -25,7 +24,7 @@ public class BallGenerator : MonoBehaviour
         kind = ballType;
         SetColor();
     }
-    public BallController GetKind()
+    public BallType GetKind()
     {
         return kind;
     }

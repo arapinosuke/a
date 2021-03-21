@@ -85,7 +85,7 @@ public class BallController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
         }
     }
-    //BoardがController
+
 
     // serialize field.
     [SerializeField]
@@ -98,7 +98,51 @@ public class BallController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     private int pieceWidth;
     private int randomSeed;
 
-    
+    public void InitializeBoard(int boardWidth, int boardHeight)
+    {
+        width = boardWidth;
+        height = boardHeight;
+
+        pieceWidth = Screen.width / boardWidth;
+
+        board = new BallGenerator[width, height];
+        for (int i = 0; i < boardWidth; i++)
+        {
+            for (int j = 0; j < boardHeight; j++)
+            {
+                CreatePiece(new Vector2(i, j));
+            }
+        }    
+    }
+    private void CreatePiece(Vector2 position)
+    {
+        // ピースの位置を求める
+        var piecePos = GetPieceWorldPos(position);
+
+        // ピースの生成位置を求める
+        var createPos = new Vector2(position.x, height);
+        while (pieceCreatePos.Contains(createPos))
+        {
+            createPos += Vector2.up;
+        }
+
+        pieceCreatePos.Add(createPos);
+        var pieceCreateWorldPos = GetPieceWorldPos(createPos);
+
+        // ピースを生成、ボードの子オブジェクトにする
+        var piece = InstantiatePiece(pieceCreateWorldPos);
+        piece.SetSize(pieceWidth);
+
+        // 生成するピースの種類をランダムに決める
+        var kind = (BallType)UnityEngine.Random.Range(0, Enum.GetNames(typeof(BallType)).Length);
+        piece.SetKind(kind);
+
+        // 盤面にピースの情報をセットする
+        board[(int)position.x, (int)position.y] = piece;
+
+       
+    }
+
     public BallGenerator GetNearestPiece(Vector3 input)
     {
         var minDist = float.MaxValue;
@@ -161,6 +205,7 @@ public class BallController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
             }
         }
     }
+    
 
     public void FillPiece()
     {
@@ -266,3 +311,5 @@ public class BallController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     }
 
 }
+
+//BoardがController
